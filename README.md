@@ -1,12 +1,17 @@
 tunes.io
 ========
 
-Music torrent search engine inspired by the movie torrent search www.movies.io. 
-It is a mashup of Last.fm's Music API and Fenopy.eu's torrent tracker API.
-Anyone can clone and host their own copy of tunes.io.
+tunes.io combines a pleasant and great-looking user interface with all the functionality needed to find and collect the best albums out there.
+
+Search for any album and you will get a minimalist view with cover art, descriptions, track listing, torrent links and more.
+
+Dependencies: 
+Last.fm - music information and artwork.
+Fenopy.eu - torrent data/search
+Twitter Bootstrap - website design
 
 tunes.io is running here: http://tunesio.eu01.aws.af.cm/
 
-by kasmura
+by kasmura.com
 
-No rights reserved
+NO RIGHTS RESERVED (ANTI-COPYRIGHT)
