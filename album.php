@@ -1,9 +1,7 @@
 <?php
-//$mbid = "0270cde6-6b5b-31fa-b04b-d8b68ff612d4";
+require_once 'config.php';
 $mbid = $_GET['mbid'];
-$apiKey = "1c9e774e852e2297ffb4103df42e8121";
-
-$url = "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=1c9e774e852e2297ffb4103df42e8121&mbid=$mbid&format=json";
+$url = "$LASTFM_BASE?method=album.getinfo&api_key=$LASTFM_KEY&mbid=$mbid&format=json";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 $album = $data['album'];
@@ -94,7 +92,7 @@ if(count($torrents) > 0) {
               <li><a href="http://torcache.net/torrent/<?php echo $torrents[0]['hash'] ?>.torrent"><i class="icon-file"></i> Torrent file</a></li>
               <li><a href="<?php echo $torrents[0]['magnet'] ?>"><i class="icon-magnet"></i> Magnet link</a></li>
               <?php
-              $url3 = "http://ws.audioscrobbler.com/2.0/?method=album.getbuylinks&mbid=$mbid&country=united+states&format=json&api_key=$apiKey";
+              $url3 = "$lastfmBase?method=album.getbuylinks&mbid=$mbid&country=united+states&format=json&api_key=$apiKey";
               $json3 = file_get_contents($url3);
               $data3 = json_decode($json3, true);
               $iTunesLink = "";
@@ -110,7 +108,6 @@ if(count($torrents) > 0) {
               <?php
               }
               ?>
-              <!--<li><a target="_blank" href="http://www.last.fm/affiliate/byid/8/2427924/44/ws.album.buylinks.b25b959554ed76058ac220b7b2e0a026"><i class="icon-amazon"></i> Buy on Amazon</a></li>-->
             </ul>
           </div>
           <?php
@@ -215,6 +212,15 @@ if(count($torrents) > 0) {
     jQuery(document).ready(function ($) {
       $('#tabs').tab();
       $("[rel=tooltip]").tooltip();
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34026217-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
     });
     </script>
   </body>

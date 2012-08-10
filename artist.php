@@ -1,12 +1,13 @@
 <?php
-$mbid = $_GET['mbid'];
+require_once 'config.php';
 
-$url = "http://ws.audioscrobbler.com/2.0/?method=artist.getinfo&format=json&mbid=$mbid&api_key=1c9e774e852e2297ffb4103df42e8121";
+$mbid = $_GET['mbid'];
+$url = "$LASTFM_BASE?method=artist.getinfo&format=json&mbid=$mbid&api_key=$LASTFM_KEY";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 $artist = $data['artist'];
 
-$url2 = "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&format=json&limit=12&mbid=$mbid&api_key=1c9e774e852e2297ffb4103df42e8121";
+$url2 = "$LASTFM_BASE?method=artist.gettopalbums&format=json&limit=12&mbid=$mbid&api_key=$LASTFM_KEY";
 $json2 = file_get_contents($url2);
 $data2 = json_decode($json2, true);
 $albums = $data2['topalbums']['album']
@@ -103,6 +104,15 @@ $albums = $data2['topalbums']['album']
     <script type="text/javascript">
     jQuery(document).ready(function ($) {
       $("[rel=tooltip]").tooltip();
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-34026217-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
     });
     </script>
   </body>

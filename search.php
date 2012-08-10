@@ -1,6 +1,7 @@
 <?php
+require_once 'config.php';
 $query = $_GET['q'];
-$url = "http://ws.audioscrobbler.com/2.0/?method=album.search&album=" . str_replace(' ', '+', $query) . "&limit=100&format=json&api_key=1c9e774e852e2297ffb4103df42e8121";
+$url = "$LASTFM_BASE?method=album.search&album=" . str_replace(' ', '+', $query) . "&limit=100&format=json&api_key=$LASTFM_KEY";
 $json = file_get_contents($url);
 $data = json_decode($json, true);
 $results = $data['results'];
@@ -72,6 +73,15 @@ $results = $data['results'];
      jQuery(document).ready(function ($) {
        $("[rel=tooltip]").tooltip();
        document.getElementById('results').innerHTML = "<?php echo $realResults ?>";
+       var _gaq = _gaq || [];
+       _gaq.push(['_setAccount', 'UA-34026217-1']);
+       _gaq.push(['_trackPageview']);
+
+       (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+       })();
      });
      </script>
    </body>
