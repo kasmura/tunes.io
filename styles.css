@@ -1,0 +1,21 @@
+body {
+  padding-top: 80px;
+  background-image: url('background.jpg');
+}
+.icon-itunes {
+  background-image: url("itunes.png");
+  background-position: center center;
+}
+hr {
+  border: 0;
+  color: black;
+  background-color: #555555;
+  height: 1px;
+}
+A {
+  color: inherit;
+}
+A:hover {
+  text-decoration: underline;
+  color: inherit;
+}
