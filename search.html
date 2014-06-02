@@ -31,13 +31,17 @@
     </div>
     <div class="container" style="width:70%">
       <div class="hero-unit" id="herounit">
+        <h1 align="center"><img align="center" src="ajax-loader.gif"></img></h1>
+        
       </div>
     </div>
+    <!--
     <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
     <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
     <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
     <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
     <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
+    -->
     <div class="modal hide" id="about">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -76,7 +80,8 @@
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>
     </div>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
     <script>
     var query;
 
@@ -92,31 +97,40 @@
         var totalResults = 0;
         var results = data['results'];
         var opensearchTotalResults = results['opensearch:totalResults'];
-        document.getElementById('herounit').innerHTML += '<h3><span id="results"></span> results for "' + query + '"</h3><br /><table id="resultsTable" class="table table-condensed"></table>';
-        for(var i = 0; i < results['albummatches']['album'].length; i++) {
-            if(results['albummatches']['album'][i]['mbid']) {
-                totalResults++;
-                var resultsTable = document.getElementById('resultsTable');
-                var tr = document.createElement('tr');
-                var td0 = document.createElement('td');
-                td0.width = "40";
-                var td0text = '<img width="34" height="34" src="' + results['albummatches']['album'][i]['image'][0]['#text'] + '" />';
-                console.log(td0text);
-                td0.innerHTML = td0text;
-                var td1 = document.createElement('td');
-                var td1text = "<h3><a href='album.html?mbid=" + results['albummatches']['album'][i]['mbid'] + "'>" + results['albummatches']['album'][i]['name'] + "</a></h3>";
-                td1.innerHTML = td1text;
-                var td2 = document.createElement('td');
-                td2.width = "40%";
-                var td2text = "<h3>" + results['albummatches']['album'][i]['artist'] + "</h3>";
-                td2.innerHTML = td2text;
-                tr.appendChild(td0);
-                tr.appendChild(td1);
-                tr.appendChild(td2);
-                resultsTable.appendChild(tr);
-            }
+        document.getElementById('herounit').innerHTML = '';
+        var queryWithoutPlus = query;
+        while (queryWithoutPlus.indexOf('+') != -1) {
+          queryWithoutPlus = queryWithoutPlus.replace('+', ' ');
         }
-        document.getElementById('results').innerText = totalResults;
+        if (results['albummatches'] == '\n') {
+          document.getElementById('herounit').innerHTML += '<h3><span id="results"></span>No results for "' + queryWithoutPlus + '"</h3>';
+        } else {
+          document.getElementById('herounit').innerHTML += '<h3><span id="results"></span> results for "' + queryWithoutPlus + '"</h3><br /><table id="resultsTable" class="table table-condensed"></table>';
+          for(var i = 0; i < results['albummatches']['album'].length; i++) {
+              if(results['albummatches']['album'][i]['mbid']) {
+                  totalResults++;
+                  var resultsTable = document.getElementById('resultsTable');
+                  var tr = document.createElement('tr');
+                  var td0 = document.createElement('td');
+                  td0.width = "40";
+                  var td0text = '<img width="34" height="34" src="' + results['albummatches']['album'][i]['image'][0]['#text'] + '" />';
+                  console.log(td0text);
+                  td0.innerHTML = td0text;
+                  var td1 = document.createElement('td');
+                  var td1text = "<h3><a href='album.html?mbid=" + results['albummatches']['album'][i]['mbid'] + "'>" + results['albummatches']['album'][i]['name'] + "</a></h3>";
+                  td1.innerHTML = td1text;
+                  var td2 = document.createElement('td');
+                  td2.width = "40%";
+                  var td2text = "<h3>" + results['albummatches']['album'][i]['artist'] + "</h3>";
+                  td2.innerHTML = td2text;
+                  tr.appendChild(td0);
+                  tr.appendChild(td1);
+                  tr.appendChild(td2);
+                  resultsTable.appendChild(tr);
+              }
+          }
+          document.getElementById('results').innerText = totalResults;
+        }
     }
 
     jQuery(document).ready(function ($) {

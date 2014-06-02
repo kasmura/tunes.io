@@ -7,7 +7,7 @@
     <style>
       body {
         padding-top: 150px;
-        background-image: url('background.jpg');
+
       }
     </style>
     <title>tunes.io</title>
@@ -34,21 +34,16 @@
         </div>
       </div>
     </div>
-    <div class="container" style="width:50%">
+    <div class="container" style="width:50%;">
       <div class="hero-unit">
         <h1 align="center">tunes.io</h1>
         <h3 align="center"><i>music torrent search</i></h3>
-        <br /><br /><br />
+        <br />
         <form action="search.html" align="center">
-          <input class="search-query span8" placeholder="John Mayer, Viva la Vida, Thriller..." style="height: 32px; font-size: 20px; width: 80%;" id="appendedInputButton" name="q" type="text">
+          <input class="search-query span8" placeholder="Search for album or artist..." style="height: 32px; font-size: 20px; width: 80%;" id="appendedInputButton" name="q" type="text">
         </form>
       </div>
     </div>
-    <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
     <div class="modal hide" id="about">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -56,17 +51,20 @@
       </div>
       <div class="modal-body">
         <p>
-            tunes.io combines a pleasant and great-looking user interface with all the functionality needed to find and collect the best albums out there.
+            tunes.io combines a nice user interface with all the functionality needed to find music torrents.
         </p>
         <p>
             Search for any album and you will get a minimalist view with cover art, descriptions, track listing, torrent links and more.
         </p>
         <p>
+            Top 40 shows the top albums on the iTunes store.
+        </p>
+        <p>
             Sources:
             <br />
             <ul>
-                <li><a style="color: #0088cc;" href="http://www.last.fm/">Last.fm</a> is the source for music information and artwork.</li>
-                <li>Torrent search is powered by <a style="color: #0088cc;" href="http://www.fenopy.eu/">Fenopy</a>.</li>
+                <li><a style="color: #0088cc;" href="http://www.last.fm/">Last.fm</a> is the source of music information and artwork.</li>
+                <li>Torrent search is powered by <a style="color: #0088cc;" href="http://www.torrentz.eu/">Torrentz.eu</a>.</li>
                 <li>Huge thanks to Twitter for their <a style="color: #0088cc;" href="http://twitter.github.com/bootstrap/">Twitter Bootstrap</a>.</li>
             </ul>
         </p>
@@ -74,7 +72,7 @@
             Legal:
             <br />
             <ul>
-                <li>Please don't download content that you don't have a legal right to.</li>
+                <li><strike>Please do not download any illegal content. </strike>Fuck copyright</li>
                 <li>We do not store or distribute any copyrighted material, nor any torrent files.</li>
                 <li>Our search process is entirely automated.</li>
             </ul>
@@ -87,6 +85,7 @@
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>
     </div>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
   </body>
 </html>

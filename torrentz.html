@@ -1,0 +1,41 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
+$.getJSON("http://query.yahooapis.com/v1/public/yql", {
+    q: "select * from html where url=\"https://torrentz.eu/search?f=Coldplay+Parachutes\"",
+    format: "json"
+}, function(data) {
+  formatResults(data.query.results.body.div[2].dl);
+})
+
+function formatResults(results) {
+    var torrents = [];
+    for (var i = 0; i < 3; i++) {
+	var torrent = {};
+	torrent['hash'] = results[i].dt.a.href.replace('/', '')
+	if (results[i].dt.a.content) {
+	    var name = results[i].dt.a.content
+	    for (var j = 0; j < results[i].dt.a.strong.length; j++) {
+		name = name.replace('\n', results[i].dt.a.strong[j]);
+	    }
+	    torrent['name'] = name.replace(/ {2,}/g, ' ')
+	    //console.log('name: ' + results[i].dt.a.strong.join(' ') + results[i].dt.a.content.replace('\n',''));
+	} else {
+	    torrent['name'] = results[i].dt.a.strong.join(' ')
+	}
+	if (results[i].dd.span.length == 5) {
+	    torrent['size'] = results[i].dd.span[2].content
+	    torrent['seeders'] = results[i].dd.span[3].content
+	    torrent['leechers'] = results[i].dd.span[4].content
+	    torrent['verified'] = true;
+	} else if(results[i].dd.span.length == 4) {
+	    torrent['size'] = results[i].dd.span[1].content
+	    torrent['seeders'] = results[i].dd.span[2].content
+	    torrent['leechers'] = results[i].dd.span[3].content
+	    torrent['verified'] = false;
+	}
+	console.log(torrent);
+	torrents.push(torrent);
+    }
+    console.log(torrents);
+}
+</script>

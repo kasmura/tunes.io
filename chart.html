@@ -8,7 +8,7 @@
         var b;
     </script>
     <style>
-      body { padding-top: 40px; background-image: url('background.jpg'); }
+      body { padding-top: 40px; }
     </style>
     <title>Top albums - tunes.io</title>
   </head>
@@ -38,11 +38,6 @@
       <table id="chartTable" cellpadding="0">
       </table>
     </div>
-    <script src="http://twitter.github.com/bootstrap/assets/js/jquery.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-dropdown.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tab.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-tooltip.js"></script>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-popover.js"></script>
     <div class="modal hide" id="about">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
@@ -81,7 +76,8 @@
         <a href="#" class="btn" data-dismiss="modal">Close</a>
       </div>
     </div>
-    <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap-modal.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.js"></script>
     <script>
     function chart(data) {
       var rowCounter = 0;
@@ -101,7 +97,6 @@
         }
         chartTable.appendChild(tr);
       }
-      $("[rel=tooltip]").popover();
     }
     </script>
     <script src="http://itunes.apple.com/us/rss/topalbums/limit=40/callback=chart/json"></script>
