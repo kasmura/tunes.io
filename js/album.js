@@ -15,9 +15,9 @@ function roundNumber(num, dec) {
 }
 
 function queryTorrentz(query) {
-
+  var yqlQuery = "select * from html where url=\"https://torrentz.eu/search?f=" + query + "\"";
   $.getJSON("http://query.yahooapis.com/v1/public/yql", {
-      q: "select * from html where url=\"https://torrentz.eu/search?f=" + query + "\"",
+      q: yqlQuery,
       format: "json"
   }, function(data) {
     formatResults(data.query.results.body.div[2].dl);
@@ -25,76 +25,23 @@ function queryTorrentz(query) {
 }
 
 function formatResults(results) {
-  console.log(results);
     var torrents = [];
     if (results.constructor !== Array) {
-      if (results['dt'].content.indexOf('DMCA') == -1) {
-	torrents.push(makeTorrentInfo(results));
-      }
+      if (results['dt'].content.indexOf('DMCA') == -1)
+	torrents.push(makeTorrentInfo(results))
     } else {
-    if (results.length > 3) {
-      results = results.splice(0,3);
-    }
-    if(results[results.length - 1]['dt'].content.indexOf('DMCA') != -1) {
-	  results.splice(results.length - 1, 1);
-    }
-    if (results.length == 1) {
-      torrents.push(makeTorrentInfo(results[0]));
-    } else if(results.length == 2 || results.length == 3) {
-      for (var i = 0; i < results.length; i++) {
-	  var torrent = {}
-	  torrent['hash'] = results[i].dt.a.href.replace('/', '')
-	  if (results[i].dt.a.content) {
-	      var name = results[i].dt.a.content
-	      if (results[i].dt.a.strong.constructor == Array) {
-		for (var j = 0; j < results[i].dt.a.strong.length; j++) {
-		  name = name.replace('\n', results[i].dt.a.strong[j]);
-		}
-	      } else {
-		name = name.replace('\n', results[i].dt.a.strong);
-	      }
-	      torrent['name'] = name.replace(/ {2,}/g, ' ')
-	  } else {
-	      torrent['name'] = results[i].dt.a.strong.join(' ')
-	  }
-	  if (results[i].dd.span.length == 5) {
-	      torrent['size'] = results[i].dd.span[2].content
-	      torrent['seeders'] = results[i].dd.span[3].content
-	      torrent['leechers'] = results[i].dd.span[4].content
-	      torrent['verified'] = true;
-	  } else if(results[i].dd.span.length == 4) {
-	      torrent['size'] = results[i].dd.span[1].content
-	      torrent['seeders'] = results[i].dd.span[2].content
-	      torrent['leechers'] = results[i].dd.span[3].content
-	      torrent['verified'] = false;
-	  }
-	  torrents.push(torrent);
+      if (results.length > 3)
+	results = results.splice(0,3);
+      if(results[results.length - 1]['dt'].content.indexOf('DMCA') != -1)
+	results.splice(results.length - 1, 1);
+      if (results.length == 1)
+	torrents.push(makeTorrentInfo(results[0]));
+      else if(results.length == 2 || results.length == 3) {
+	for (var i = 0; i < results.length; i++)
+	  torrents.push(makeTorrentInfo(results[i]));
       }
-    } else if(numberoftorrents == 0) {
-      var torrent = {}
-	  torrent['hash'] = results.dt.a.href.replace('/', '')
-	  if (results.dt.a.content) {
-	      var name = results.dt.a.content
-	      for (var j = 0; j < results.dt.a.strong.length; j++) {
-		  name = name.replace('\n', results.dt.a.strong[j]);
-	      }
-	      torrent['name'] = name.replace(/ {2,}/g, ' ')
-	  } else {
-	      torrent['name'] = results[i].dt.a.strong.join(' ')
-	  }
-	  if (results.dd.span.length == 5) {
-	      torrent['size'] = results.dd.span[2].content
-	      torrent['seeders'] = results.dd.span[3].content
-	      torrent['leechers'] = results.dd.span[4].content
-	      torrent['verified'] = true;
-	  } else if(results.dd.span.length == 4) {
-	      torrent['size'] = results.dd.span[1].content
-	      torrent['seeders'] = results.dd.span[2].content
-	      torrent['leechers'] = results.dd.span[3].content
-	      torrent['verified'] = false;
-	  }
-	  torrents.push(torrent);     
-    }
+      else if(numberoftorrents == 0)
+	torrents.push(makeTorrentInfo(results));     
     }
     inputResult(torrents)
 }
@@ -111,7 +58,7 @@ function makeTorrentInfo(result) {
     } else {
       name = name.replace('\n', result.dt.a.strong);
     }
-    torrent['name'] = name.replace(/ {2,}/g, ' ')
+    torrent['name'] = name.replace(/ {2,}/g, ' ').replace(/ , /g, ', ').replace(/ '/g, "'").replace(/ &/g, "&");
   } else {
     torrent['name'] = result.dt.a.strong.join(' ')
   }
@@ -143,7 +90,7 @@ function inputResult(torrentResults) {
       }
   }
   if(torrents.length > 0) {
-      document.getElementById('downloadButton').innerHTML = '<i class="icon-download-alt icon-white"></i> Download album';
+      document.getElementById('downloadButton').innerHTML = 'Download album';
       document.getElementById('downloadButton').className += " btn-success";
       document.getElementById('dropdownToggle').className += " btn-success";
       document.getElementById('downloadButton').href = "magnet:?xt=urn:btih:" + torrents[0]['hash'] + "&dn=" + torrents[0]['name'].replace(/ /g, '+')
@@ -170,11 +117,12 @@ function inputResult(torrentResults) {
           td4.innerHTML = '<span rel="tooltip" data-original-title="' + torrent['leechers'] + ' leechers"><i class="icon-chevron-down"></i> ' + torrent['leechers'] + '</span>';
           
           var td5 = document.createElement('td');
-          if(torrent['verified'] == false)
+          if(torrent['verified'] == false) {
               td5.innerHTML = '<i class="icon-question-sign"></i> not verified';
+          }
           else
               td5.innerHTML = '<i class="icon-ok-sign"></i> verified';
-          
+	  
           tr.appendChild(td0);
           tr.appendChild(td1);
           tr.appendChild(td2);
@@ -201,7 +149,7 @@ function inputResult(torrentResults) {
 function queryResult(data) {
   album = data['album'];
   
-  queryTorrentz(encodeURI(album['artist'] + " " + album['name']).replace('&', 'and'));
+  queryTorrentz(encodeURIComponent(album['artist']) + "%20" + encodeURIComponent(album['name']));
   
   document.getElementById('albumName').innerText = album['name'];
   document.title = album['name'];
